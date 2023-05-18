@@ -227,7 +227,7 @@ def pipeline(text=None,flag = None, audio=None , state="", statte="", stattte=""
             return statte, statte, None, "response.wav"
     elif flag == 'db':
         stattte = demo.db_query(text)
-        return stattte, stattte, None
+        return stattte, stattte, None, None
      
 if __name__ == "__main__":
     #gr.outputs.Audio()

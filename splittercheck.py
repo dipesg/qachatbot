@@ -36,7 +36,9 @@ from langchain.chat_models import ChatOpenAI
 import pyttsx3
 from langchain.document_loaders import PyPDFLoader
 from langchain.document_loaders import PyMuPDFLoader
-#from llama_index import GPTSimpleVectorIndex, download_loader
+from langchain.text_splitter import CharacterTextSplitter
+import textwrap
+from langchain.text_splitter import RecursiveCharacterTextSplitter
 #set OPENAI_API_KEY=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
 
 
@@ -45,22 +47,22 @@ class Demo:
         self.chat_history = []
         self.prev_bot_response = ''
         self.question = ''
-        self.persist_directory1 = './pdf_db'
+        self.persist_directory2 = './split'
         self.embedding = OpenAIEmbeddings()
         self.llm = ChatOpenAI(model_name='gpt-3.5-turbo-0301', temperature=0, streaming=True, verbose=True)
         self.streaming_llm = ChatOpenAI(model_name='gpt-3.5-turbo-0301', streaming=True, callback_manager=CallbackManager([StreamingStdOutCallbackHandler()]), verbose=True, temperature=0)
-        loader = PyMuPDFLoader("docs/geoprod.pdf")
+        loader = PyMuPDFLoader("docs/report1.pdf")
         data = loader.load()
-        text_splitter = CharacterTextSplitter(chunk_size=1000, chunk_overlap=0)
+        text_splitter = CharacterTextSplitter()
         docs = text_splitter.split_documents(data)
-        db = Chroma.from_documents(docs, self.embedding, persist_directory=self.persist_directory1)
+        db = Chroma.from_documents(docs, self.embedding, persist_directory=self.persist_directory2)
         
         
     def chatbot(self, query):
         question = self.question + '' + query
         # Add current user question and previous bot response to chat history
         self.chat_history.append((question, self.prev_bot_response))
-        self.vectordb = Chroma(persist_directory=self.persist_directory1, embedding_function=self.embedding)
+        self.vectordb = Chroma(persist_directory=self.persist_directory2, embedding_function=self.embedding)
         question_generator = LLMChain(llm=self.llm, prompt=CONDENSE_QUESTION_PROMPT)
         doc_chain1 = load_qa_chain(self.streaming_llm, prompt=QA_PROMPT)
         qa = ChatVectorDBChain(vectorstore=self.vectordb, combine_docs_chain=doc_chain1, question_generator=question_generator)  #, return_source_documents=True
@@ -69,6 +71,7 @@ class Demo:
         # Update previous bot response with current response
         self.prev_bot_response = bot_response
         return bot_response
+
 
     def recognize_speech_from_file(self, file_path):
         # Create a recognizer instance
