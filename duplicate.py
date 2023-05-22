@@ -1,22 +1,46 @@
+from langchain.evaluation.loading import load_dataset
+from langchain import OpenAI, SQLDatabase, SQLDatabaseChain
+from langchain.chains import SQLDatabaseSequentialChain
 from langchain.embeddings.openai import OpenAIEmbeddings
 from langchain.chat_models import ChatOpenAI
+from langchain.embeddings.cohere import CohereEmbeddings
 from langchain.text_splitter import CharacterTextSplitter
+from langchain.vectorstores.elastic_vector_search import ElasticVectorSearch
 from langchain.vectorstores import Chroma
+from langchain.docstore.document import Document
+from langchain.llms import OpenAIChat
 from langchain.chains import ChatVectorDBChain
+from langchain.chains.qa_with_sources import load_qa_with_sources_chain
+import json
 from langchain.chains.question_answering import load_qa_chain
+from langchain.llms import OpenAI
+from langchain.prompts import PromptTemplate
+from langchain.memory import ConversationBufferMemory
 from langchain.chains.llm import LLMChain
 from langchain.chains.chat_vector_db.prompts import CONDENSE_QUESTION_PROMPT, QA_PROMPT
 from langchain.callbacks.base import CallbackManager
 from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
-from langchain.document_loaders import PyMuPDFLoader
-from langchain.text_splitter import CharacterTextSplitter
-from langchain.chat_models import ChatOpenAI
+from langchain.vectorstores import FAISS
 import gradio as gr
 import speech_recognition as sr
-import asyncio
+from speech_recognition import AudioFile, Recognizer
+from gtts import gTTS
+from base64 import b64encode
+from io import BytesIO
+import time
 import pyttsx3
+from dotenv import load_dotenv
+import gradio as gr 
+from langchain import OpenAI
+from langchain.chat_models import ChatOpenAI
+import pyttsx3
+from langchain.document_loaders import PyPDFLoader
+from langchain.document_loaders import PyMuPDFLoader
+from langchain.text_splitter import CharacterTextSplitter
 import re
-from tt import call_asr, call_tts_nepali, trans
+import asyncio
+import aiohttp
+r = sr.Recognizer()
 ###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
 
 class Demo:
@@ -71,6 +95,8 @@ class Demo:
 
 # Initialize Chatbot class object
 demo = Demo()
+# Initialize Chatbot class object
+demo = Demo()
 
 def split_streaming_response(text):
     response = demo.chatbot(text)
@@ -101,60 +127,35 @@ def split_streaming_response(text):
     print("Result :", result)
     return result
 
-async def call_gtts_api(text, index):
-    loop = asyncio.get_running_loop()
-    tts = call_tts_nepali(text)#gTTS(text=text, lang='en')
-    tts.save(f'output_{index}.mp3')
+async def convert_text_to_speech(sentence, session):
+    # Make the API call to convert the sentence to speech
+    async with session.get('https://your_tts_api.com', params={'text': sentence}) as response:
+        audio = await response.read()
+    return audio
 
-    with open(f'output_{index}.mp3', 'rb') as f:
-        audio_content = f.read()
+async def convert_list_to_speech(sentences):
+    # Create an aiohttp session
+    async with aiohttp.ClientSession() as session:
+        # Prepare a list to store the speech audio
+        audio_list = []
+        # Create a list of tasks for parallel execution
+        tasks = []
+        for sentence in sentences:
+            task = asyncio.ensure_future(convert_text_to_speech(sentence, session))
+            tasks.append(task)
+        # Execute the tasks concurrently
+        audio_list = await asyncio.gather(*tasks)
+    # Concatenate the audio into a single file or buffer
+    audio = b''.join(audio_list)
 
-    return audio_content
-
-async def transcribe_audio(file_path):
-        try:
-            text = call_asr(file_path)
-            print("Transcription: ", text)
-        except sr.UnknownValueError:
-            print("Google Speech Recognition could not understand audio")
-        except sr.RequestError as e:
-            print("Could not request results from Google Speech Recognition service; {0}".format(e))
-
-        return text
-
-async def main(text):
-    sentences = split_streaming_response(text)
-    audio_tasks = []
-    for i, sentence in enumerate(sentences, start=1):
-        audio_task = asyncio.create_task(call_gtts_api(sentence, i))
-        audio_tasks.append(audio_task)
-
-    audio_contents = await asyncio.gather(*audio_tasks)
-
-    # transcript_tasks = []
-    # for audio_content in audio_contents:
-    #     transcript_task = asyncio.create_task(transcribe_audio(audio_content))
-    #     transcript_tasks.append(transcript_task)
-
-    # transcripts = await asyncio.gather(*transcript_tasks)
-    return audio_contents
-
-# Define your Gradio interface function
-async def process_text(audio=None, text=None):
-    if audio:
-        message = demo.recognize_speech_from_file(audio)#transcribe_audio(audio)
-        # Process the audio contents as needed
-        output = demo.chatbot(message)
-        aud = await main(output)
-        return "Processed output"
-    else:
-        message = text
-        audio_contents = await main(message)
-        # Process the audio contents as needed
-        # ...
-
-        return "Processed output"
-
+    # Return the audio in case it's needed for further processing
+    return audio
+     
+if __name__ == "__main__":
+    gr.Interface(
+        fn=split_streaming_response,
+        inputs="text",
+        outputs="text").launch(debug=True)
     
 # def pipeline(text=None, audio=None , state="", statte=""):
 #     if audio:
@@ -171,15 +172,10 @@ async def process_text(audio=None, text=None):
 #         engine.runAndWait()
 #         return statte, statte,"response.wav"
      
-if __name__ == "__main__":
-    # Create your Gradio interface
-    # Define your Gradio interface components
-    input_text = gr.inputs.Textbox(label="Input Text")
-    input_aud = gr.inputs.Audio(source="microphone", type="filepath")
-    output_text = gr.outputs.Textbox(label="Output Text")
-    output_aud = gr.outputs.Audio(type="filepath")
-    gr.Interface(fn=process_text, inputs=[input_aud,input_text], outputs=output_text).launch()
-    # gr.Interface(
-    #     fn=pipeline,
-    #     inputs=["text", gr.inputs.Audio(source="microphone", type="filepath"), "state"], 
-    #     outputs=["text", "state", gr.outputs.Audio(type="filepath")]).launch(debug=True)
+# if __name__ == "__main__":
+#     gr.Interface(
+#         fn=pipeline,
+#         inputs=["text", gr.inputs.Audio(source="microphone", type="filepath"), "state"], 
+#         outputs=["text", "state", gr.outputs.Audio(type="filepath")]).launch(debug=True)
+        
+

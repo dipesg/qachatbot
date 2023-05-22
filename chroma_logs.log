@@ -1340,3 +1340,73 @@ DEBUG:Chroma:time to pre process our knn query: 0.0
 DEBUG:Chroma:time to run knn query: 0.0009999275207519531
 DEBUG:Chroma:time to pre process our knn query: 0.0
 DEBUG:Chroma:time to run knn query: 0.0
+DEBUG:Chroma:Logger created
+DEBUG:Chroma:Index saved to {self._save_folder}/index.bin
+DEBUG:Chroma:Logger created
+DEBUG:Chroma:Logger created
+DEBUG:Chroma:Logger created
+DEBUG:Chroma:Logger created
+DEBUG:Chroma:Logger created
+DEBUG:Chroma:Logger created
+DEBUG:Chroma:Logger created
+DEBUG:Chroma:Logger created
+DEBUG:Chroma:Logger created
+DEBUG:Chroma:Index not found
+DEBUG:Chroma:Index saved to {self._save_folder}/index.bin
+DEBUG:Chroma:Index saved to {self._save_folder}/index.bin
+DEBUG:Chroma:time to pre process our knn query: 0.0
+DEBUG:Chroma:time to run knn query: 0.0006172657012939453
+DEBUG:Chroma:time to pre process our knn query: 0.0
+DEBUG:Chroma:time to run knn query: 0.0
+DEBUG:Chroma:time to pre process our knn query: 0.0
+DEBUG:Chroma:time to run knn query: 0.0
+DEBUG:Chroma:Logger created
+DEBUG:Chroma:Index saved to {self._save_folder}/index.bin
+DEBUG:Chroma:time to pre process our knn query: 0.0
+DEBUG:Chroma:time to run knn query: 0.0
+DEBUG:Chroma:Logger created
+DEBUG:Chroma:Index not found
+DEBUG:Chroma:Index saved to {self._save_folder}/index.bin
+DEBUG:Chroma:Index saved to {self._save_folder}/index.bin
+DEBUG:Chroma:time to pre process our knn query: 0.0
+DEBUG:Chroma:time to run knn query: 0.0
+DEBUG:Chroma:time to pre process our knn query: 0.0
+DEBUG:Chroma:time to run knn query: 0.0009968280792236328
+DEBUG:Chroma:time to pre process our knn query: 0.0
+DEBUG:Chroma:time to run knn query: 0.0
+DEBUG:Chroma:Logger created
+DEBUG:Chroma:Index saved to {self._save_folder}/index.bin
+DEBUG:Chroma:Logger created
+DEBUG:Chroma:Index saved to {self._save_folder}/index.bin
+DEBUG:Chroma:time to pre process our knn query: 0.0
+DEBUG:Chroma:time to run knn query: 0.0
+DEBUG:Chroma:Logger created
+DEBUG:Chroma:Index saved to {self._save_folder}/index.bin
+DEBUG:Chroma:time to pre process our knn query: 0.0
+DEBUG:Chroma:time to run knn query: 0.0
+DEBUG:Chroma:Logger created
+DEBUG:Chroma:Index saved to {self._save_folder}/index.bin
+DEBUG:Chroma:Index saved to {self._save_folder}/index.bin
+DEBUG:Chroma:time to pre process our knn query: 0.0
+DEBUG:Chroma:time to run knn query: 0.0
+DEBUG:Chroma:time to pre process our knn query: 0.0
+DEBUG:Chroma:time to run knn query: 0.0
+DEBUG:Chroma:Logger created
+DEBUG:Chroma:Index saved to {self._save_folder}/index.bin
+DEBUG:Chroma:Logger created
+DEBUG:Chroma:Index saved to {self._save_folder}/index.bin
+DEBUG:Chroma:time to pre process our knn query: 0.0
+DEBUG:Chroma:time to run knn query: 0.0009779930114746094
+DEBUG:Chroma:time to pre process our knn query: 0.0
+DEBUG:Chroma:time to run knn query: 0.0
+WARNING:langchain.chat_models.openai:Retrying langchain.chat_models.openai.ChatOpenAI.completion_with_retry.<locals>._completion_with_retry in 1.0 seconds as it raised RateLimitError: Rate limit reached for default-gpt-3.5-turbo in organization org-TJKor4LVM0c4LRbYZdlFgtHc on requests per min. Limit: 3 / min. Please try again in 20s. Contact us through our help center at help.openai.com if you continue to have issues. Please add a payment method to your account to increase your rate limit. Visit https://platform.openai.com/account/billing to add a payment method..
+WARNING:langchain.chat_models.openai:Retrying langchain.chat_models.openai.ChatOpenAI.completion_with_retry.<locals>._completion_with_retry in 2.0 seconds as it raised RateLimitError: Rate limit reached for default-gpt-3.5-turbo in organization org-TJKor4LVM0c4LRbYZdlFgtHc on requests per min. Limit: 3 / min. Please try again in 20s. Contact us through our help center at help.openai.com if you continue to have issues. Please add a payment method to your account to increase your rate limit. Visit https://platform.openai.com/account/billing to add a payment method..
+WARNING:langchain.chat_models.openai:Retrying langchain.chat_models.openai.ChatOpenAI.completion_with_retry.<locals>._completion_with_retry in 4.0 seconds as it raised RateLimitError: Rate limit reached for default-gpt-3.5-turbo in organization org-TJKor4LVM0c4LRbYZdlFgtHc on requests per min. Limit: 3 / min. Please try again in 20s. Contact us through our help center at help.openai.com if you continue to have issues. Please add a payment method to your account to increase your rate limit. Visit https://platform.openai.com/account/billing to add a payment method..
+WARNING:langchain.chat_models.openai:Retrying langchain.chat_models.openai.ChatOpenAI.completion_with_retry.<locals>._completion_with_retry in 8.0 seconds as it raised RateLimitError: Rate limit reached for default-gpt-3.5-turbo in organization org-TJKor4LVM0c4LRbYZdlFgtHc on requests per min. Limit: 3 / min. Please try again in 20s. Contact us through our help center at help.openai.com if you continue to have issues. Please add a payment method to your account to increase your rate limit. Visit https://platform.openai.com/account/billing to add a payment method..
+WARNING:langchain.chat_models.openai:Retrying langchain.chat_models.openai.ChatOpenAI.completion_with_retry.<locals>._completion_with_retry in 1.0 seconds as it raised RateLimitError: That model is currently overloaded with other requests. You can retry your request, or contact us through our help center at help.openai.com if the error persists. (Please include the request ID 92818b1e9189733ae566f0c2c62a1a3f in your message.).
+DEBUG:Chroma:time to pre process our knn query: 0.0
+DEBUG:Chroma:time to run knn query: 0.0
+DEBUG:Chroma:Logger created
+DEBUG:Chroma:Index saved to {self._save_folder}/index.bin
+DEBUG:Chroma:time to pre process our knn query: 0.0
+DEBUG:Chroma:time to run knn query: 0.0

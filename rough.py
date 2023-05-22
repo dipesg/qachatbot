@@ -76,9 +76,6 @@ class Demo:
         
     def chatbot(self, query):
         data = self.loader.load()
-        for i in range(0, len(data)):
-            self.numbers_to_words(data[i].page_content)
-        print("DATA :", data[1].page_content)
         text_splitter = CharacterTextSplitter(chunk_size=1000, chunk_overlap=0)
         docs = text_splitter.split_documents(data)
         db = Chroma.from_documents(docs, self.embedding, persist_directory=self.persist_directory1)
@@ -132,7 +129,6 @@ async def convert_text_to_speech(sentence, session):
     # Make the API call to convert the sentence to speech
     async with session.get('https://your_tts_api.com', params={'text': sentence}) as response:
         audio = await response.read()
-
     return audio
 
 async def convert_list_to_speech(sentences):
@@ -140,33 +136,23 @@ async def convert_list_to_speech(sentences):
     async with aiohttp.ClientSession() as session:
         # Prepare a list to store the speech audio
         audio_list = []
-
         # Create a list of tasks for parallel execution
         tasks = []
         for sentence in sentences:
             task = asyncio.ensure_future(convert_text_to_speech(sentence, session))
             tasks.append(task)
-
         # Execute the tasks concurrently
         audio_list = await asyncio.gather(*tasks)
-
     # Concatenate the audio into a single file or buffer
     audio = b''.join(audio_list)
 
     # Return the audio in case it's needed for further processing
     return audio
-
-
-# if __name__ == '__main__':
-#     colors = ['red', 'blue', 'green']  # ...
-#     # Either take colors from stdin or make some default here
-#     asyncio.run(main(colors))
-
      
 if __name__ == "__main__":
     gr.Interface(
         fn=split_streaming_response,
         inputs="text",
-        outputs="text").launch(debug=True) #gr.outputs.Audio(type="filepath")
+        outputs="text").launch(debug=True)
         
 

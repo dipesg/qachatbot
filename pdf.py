@@ -126,18 +126,15 @@ def split_streaming_response(text):
     print("Result :", result)
     return result
 r = sr.Recognizer()
-SERVER_HOST= "192.168.1.70"
-SERVER_PORT = 8000
-API_PATH = "/generate" 
 
-async def convert_text_to_speech(sentence, session):
-    # Make the API call to convert the sentence to speech
-    url = "http://"+SERVER_HOST+":"+str(SERVER_PORT)+API_PATH
-    resp = requests.post(url, data='नमस्ते'.encode('utf-8'))
-    async with session.get('https://your_tts_api.com', params={'text': sentence}) as response:
-        audio = await response.read()
+# async def convert_text_to_speech(sentence, session):
+#     # Make the API call to convert the sentence to speech
+#     url = "http://"+SERVER_HOST+":"+str(SERVER_PORT)+API_PATH
+#     resp = requests.post(url, data='नमस्ते'.encode('utf-8'))
+#     async with session.get('https://your_tts_api.com', params={'text': sentence}) as response:
+#         audio = await response.read()
 
-    return audio
+    # return audio
 async def call_gtts_api(text, index):
     loop = asyncio.get_running_loop()
     tts = gTTS(text=text, lang='en')
